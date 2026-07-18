@@ -119,3 +119,22 @@ class VaultManager:
         self.database.delete_credential(
             credential_id
         )
+
+    def search_credentials(
+        self,
+        keyword: str,
+    ):
+        """
+        Search credentials and decrypt passwords.
+        """
+
+        credentials = self.database.search_credentials(
+            keyword
+        )
+
+        for credential in credentials:
+            credential.password = self.encryption.decrypt(
+                credential.encrypted_password
+            )
+
+        return credentials
