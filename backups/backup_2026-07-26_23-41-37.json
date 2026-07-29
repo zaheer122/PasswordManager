@@ -1,0 +1,17 @@
+{
+    "vault_salt": "BCDwbKoRW46fZGbW3yBPYw==",
+    "credentials": [
+        {
+            "name": "GitHub",
+            "website": "https://github.com",
+            "username": "zaheer",
+            "email": "zaheer@example.com",
+            "encrypted_password": "gAAAAABqZk3K3ukth_Ayus6svS6h1Q2bWF-uHlM3bUz0j7ddOv4okQapxED9R6pHMw8bfKpn_kZk0dYcKYsiFVovdpPoeOPnuJWMQGTxDCFgTTNFbQLcwBQ=",
+            "notes": "Personal account",
+            "category": "Development",
+            "favorite": true,
+            "created_at": "2026-07-26T23:41:22.614498",
+            "updated_at": "2026-07-26T23:41:22.614498"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "vault_salt": "4bCwmO9/rip8aP/zR8tM/A==",
+    "credentials": [
+        {
+            "name": "github",
+            "website": "github.com",
+            "username": "zaheer122",
+            "email": "zaheermohd507@gmail.com",
+            "encrypted_password": "gAAAAABqaQHb2PGmX8kIgouijAP5W0oXg3wggNdknf-95UYdUygy48UycuMPI7qVl47e6erna6BqBJETIe7frs52bJ-NlTJ0KQ==",
+            "notes": "",
+            "category": "Work",
+            "favorite": false,
+            "created_at": "2026-07-29T00:54:11.467307",
+            "updated_at": "2026-07-29T00:54:11.467307"
+        },
+        {
+            "name": "google",
+            "website": "google.com",
+            "username": "shadowmorbius",
+            "email": "shadowmorbius@gmail.com",
+            "encrypted_password": "gAAAAABqacLEJjKYga15YKXGoDBdv81GGrhrVDSGYh4tE5o0FqevUoRhFdh_yBfU_MbYrw79Tz3mN0jJxe0jhY1VVNzM9oqCeg==",
+            "notes": "Used for third party registration ",
+            "category": "Social",
+            "favorite": false,
+            "created_at": "2026-07-29T14:37:16.907067",
+            "updated_at": "2026-07-29T14:37:16.907067"
+        }
+    ]
+}

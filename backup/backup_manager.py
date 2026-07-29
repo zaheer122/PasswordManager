@@ -70,7 +70,9 @@ class BackupManager:
 
         Path("data/vault.salt").write_text(
             backup["vault_salt"]
-)
+        )
+        # Clear current vault
+        self.database.delete_all_credentials()
 
         for credential in backup["credentials"]:
 

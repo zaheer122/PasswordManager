@@ -332,3 +332,12 @@ class DatabaseManager:
 
     def close(self) -> None:
         self.connection.close()
+
+    def delete_all_credentials(self):
+
+        query = """
+        DELETE FROM credentials
+        """
+
+        self.cursor.execute(query)
+        self.connection.commit()

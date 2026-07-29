@@ -9,12 +9,17 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QTableView,
     QAbstractItemView,
+    QFileDialog,
 )
-
+from PySide6.QtWidgets import QMessageBox
 from database.db_manager import DatabaseManager
 from encryption.encryption_manager import EncryptionManager
 from vault.vault_manager import VaultManager
 from ui.dialog.add_dialog import AddCredentialDialog
+from ui.dialog.view_dialog import ViewCredentialDialog
+from backup.backup_manager import BackupManager
+from ui.login_window import LoginWindow
+
 
 
 class Dashboard(QWidget):
@@ -30,9 +35,8 @@ class Dashboard(QWidget):
         encryption = EncryptionManager(key)
 
         self.vault = VaultManager(db, encryption)
-
+        self.backup = BackupManager(db)
         self.build_ui()
-
         self.load_credentials()
 
     def build_ui(self):
@@ -123,15 +127,21 @@ class Dashboard(QWidget):
         # Signals
         # ===========================
 
-        self.search.textChanged.connect(
-            self.search_credentials
-        )
+        self.logout_btn.clicked.connect(self.logout)
 
-        self.add_btn.clicked.connect(
-            self.add_credential
-        )
+        self.search.textChanged.connect(self.search_credentials)
+
+        self.add_btn.clicked.connect(self.add_credential)
+
+        self.delete_btn.clicked.connect(self.delete_credential)
 
         self.edit_btn.clicked.connect(self.edit_credential)
+
+        self.backup_btn.clicked.connect(self.export_backup)
+
+        self.restore_btn.clicked.connect(self.restore_backup)
+
+        self.table.doubleClicked.connect(self.view_credential)
 
     def load_credentials(self):
 
@@ -254,3 +264,136 @@ class Dashboard(QWidget):
 
         if dialog.exec():
             self.load_credentials()
+
+    def delete_credential(self):
+
+        indexes = self.table.selectionModel().selectedRows()
+
+        if not indexes:
+            QMessageBox.information(
+                self,
+                "Delete Credential",
+                "Please select a credential to delete."
+            )
+            return
+    
+        row = indexes[0].row()
+
+        credential_id = self.model.item(
+            row,
+            0,
+        ).data(Qt.UserRole)
+
+        credential_name = self.model.item(
+            row,
+            0,
+        ).text()
+
+        reply = QMessageBox.question(
+            self,
+            "Confirm Delete",
+            f"Delete '{credential_name}'?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+
+        if reply == QMessageBox.Yes:
+
+            self.vault.delete_credential(
+                credential_id
+            )
+
+            self.load_credentials()
+
+            QMessageBox.information(
+                self,
+                "Success",
+                "Credential deleted successfully."
+            )
+
+    def export_backup(self):
+
+        backup_path = self.backup.export_backup()
+
+        QMessageBox.information(
+            self,
+            "Backup Successful",
+            f"Backup saved to:\n\n{backup_path}"
+        )
+
+    def restore_backup(self):
+
+        filename, _ = QFileDialog.getOpenFileName(
+            self,
+            "Select Backup",
+            "backups",
+            "JSON Files (*.json)"
+        )
+
+        if not filename:
+            return
+
+        reply = QMessageBox.question(
+            self,
+            "Restore Backup",
+            "Restoring will import credentials from the selected backup.\n\nContinue?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+
+        if reply != QMessageBox.Yes:
+            return
+
+        self.backup.import_backup(filename)
+
+        self.load_credentials()
+
+        QMessageBox.information(
+            self,
+            "Restore Complete",
+            "Backup restored successfully."
+        )
+
+    def view_credential(self):
+
+        indexes = self.table.selectionModel().selectedRows()
+
+        if not indexes:
+            return
+
+        row = indexes[0].row()
+
+        credential_id = self.model.item(
+            row,
+            0,
+        ).data(Qt.UserRole)
+
+        credential = self.vault.get_credential_by_id(
+            credential_id
+        )
+
+        if credential is None:
+            return
+
+        dialog = ViewCredentialDialog(
+            credential,
+            self,
+            self,
+     )
+
+        dialog.exec()
+
+        self.load_credentials()
+
+    def keyPressEvent(self, event):
+
+        if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
+            self.view_credential()
+            return
+
+        super().keyPressEvent(event)
+
+    def logout(self):
+
+        self.close()
+
+        self.login = LoginWindow()
+        self.login.show()
