@@ -1,19 +1,27 @@
-# Virtual environment
+# Virtual Environment
 venv/
 
 # Python cache
 __pycache__/
 *.pyc
 
-# Database files
+# Database
+data/
 *.db
 *.sqlite3
 
-# Environment variables
+# Backup files
+backups/
+
+# Environment
 .env
 
-# macOS files
+# macOS
 .DS_Store
 
-# VS Code settings (optional)
+# VS Code
 .vscode/
+
+# Qt/Python cache
+*.log
+*.tmp
