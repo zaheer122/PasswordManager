@@ -11,13 +11,11 @@
 </p>
 
 <p align="center">
-
-![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![PySide6](https://img.shields.io/badge/PySide6-Qt-41CD52?style=for-the-badge&logo=qt&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
-![Security](https://img.shields.io/badge/Security-Encrypted-8A2BE2?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-In%20Development-orange?style=for-the-badge)
-
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/PySide6-Qt-41CD52?style=for-the-badge&logo=qt&logoColor=white" alt="PySide6">
+  <img src="https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
+  <img src="https://img.shields.io/badge/Security-Encrypted-8A2BE2?style=for-the-badge" alt="Security">
+  <img src="https://img.shields.io/badge/Status-In%20Development-orange?style=for-the-badge" alt="Status">
 </p>
 
 ---
@@ -49,15 +47,10 @@ The project is being developed with a strong focus on **security, clean architec
 
 ---
 
-# ✨ Features
+## ✨ Features
 
-## 🔐 Master Password Authentication
-
-The application uses a master password to protect access to the vault.
-
-The master password is **not stored directly**.
-
-Instead, authentication uses a password hashing mechanism with a cryptographic salt.
+### 🔐 Master Password Authentication
+The application uses a master password to protect access to the vault. The master password is **not stored directly**. Instead, authentication uses a password hashing mechanism with a cryptographic salt.
 
 ```text
 Master Password
@@ -70,170 +63,107 @@ Salt + Password Hash
        │
        ▼
 Authentication
+```
 
-🔒 Encrypted Password Storage
+### 🔒 Encrypted Password Storage
+Credential passwords are encrypted before being stored in the SQLite database. When the credential is viewed, the application decrypts the password using the appropriate encryption key.
 
-Credential passwords are encrypted before being stored in the SQLite database.
-
+```text
 User Password
-      │
-      ▼
+       │
+       ▼
 Encryption Manager
-      │
-      ▼
+       │
+       ▼
 Encrypted Password
-      │
-      ▼
+       │
+       ▼
 SQLite Database
+```
 
-When the credential is viewed, the application decrypts the password using the appropriate encryption key.
-
-➕ Add Credentials
-
+### ➕ Add Credentials
 Users can create credentials containing:
+- Name
+- Website
+- Username
+- Email
+- Password
+- Category
+- Notes
+- Favourite status
 
-Name
-Website
-Username
-Email
-Password
-Category
-Notes
-Favourite status
+*The Add Credential dialog also includes password generation functionality.*
 
-The Add Credential dialog also includes password generation functionality.
+### 🎲 Password Generator
+The application includes a built-in password generator for creating stronger passwords. Users can generate passwords directly while creating or editing a credential. This avoids the need to use an external password-generation website or application.
 
-🎲 Password Generator
+### 🔎 Search Credentials
+The dashboard provides credential searching. Users can quickly search their vault instead of manually looking through every stored credential. Search results update dynamically as the user types.
 
-The application includes a built-in password generator for creating stronger passwords.
+### 👁️ View Credentials
+Users can open a credential to view its details. Password fields are hidden by default. The user can:
+- Show the password
+- Hide the password
+- Copy the password
+- Edit the credential
+- Close the credential view
 
-Users can generate passwords directly while creating or editing a credential.
+### ⭐ Favourite Credentials
+Frequently used credentials can be marked as favourites. Favourite status is displayed directly in the dashboard.
 
-This avoids the need to use an external password-generation website or application.
+**Example:**
+> GitHub &nbsp; &nbsp; &nbsp; github.com &nbsp; &nbsp; &nbsp; ⭐  
+> Google &nbsp; &nbsp; &nbsp; google.com  
+> AWS &nbsp; &nbsp; &nbsp; &nbsp; aws.amazon.com &nbsp; ⭐  
 
-🔎 Search Credentials
+### ✏️ Edit Credentials
+Existing credentials can be edited without creating a new credential. Users can update: Name, Website, Username, Email, Password, Category, Notes, and Favourite status.
 
-The dashboard provides credential searching.
+### 🗑️ Delete Credentials
+Credentials can be deleted from the vault. Before deletion, the application asks the user to confirm the action to help prevent accidental deletion.
 
-Users can quickly search their vault instead of manually looking through every stored credential.
-
-Search results update dynamically as the user types.
-
-👁️ View Credentials
-
-Users can open a credential to view its details.
-
-Password fields are hidden by default.
-
-The user can:
-
-Show the password
-Hide the password
-Copy the password
-Edit the credential
-Close the credential view
-⭐ Favourite Credentials
-
-Frequently used credentials can be marked as favourites.
-
-Favourite status is displayed directly in the dashboard.
-
-Example:
-
-GitHub       github.com       ⭐
-Google       google.com
-AWS          aws.amazon.com   ⭐
-✏️ Edit Credentials
-
-Existing credentials can be edited without creating a new credential.
-
-Users can update:
-
-Name
-Website
-Username
-Email
-Password
-Category
-Notes
-Favourite status
-🗑️ Delete Credentials
-
-Credentials can be deleted from the vault.
-
-Before deletion, the application asks the user to confirm the action.
-
+```text
 Delete "GitHub"?
 
         [Cancel]     [Delete]
+```
 
-This helps prevent accidental deletion.
-
-💾 Backup & Restore
-
+### 💾 Backup & Restore
 The application supports backing up and restoring credentials.
 
-Backup
-
-The Backup feature exports the vault information into a JSON backup file.
-
-Vault
-  │
-  ▼
-Backup Manager
-  │
-  ▼
-JSON Backup
+**Backup**  
+The Backup feature exports the vault information into a JSON backup file. Credential passwords remain encrypted in the backup.
+```text
+Vault ──▶ Backup Manager ──▶ JSON Backup
 
 Example:
-
 backups/
 └── backup_2026-07-26_23-41-37.json
+```
 
-Credential passwords remain encrypted in the backup.
+**Restore**  
+Users can select an existing `.json` backup through the application's file picker. The dashboard is refreshed after restoration.
+```text
+JSON Backup ──▶ Backup Manager ──▶ Vault
+```
+> ⚠️ **Note:** Backup files contain sensitive vault information and must be protected. They should never be committed to a public Git repository.
 
-Restore
+### 🖥️ Dashboard
+The application uses PySide6 for the desktop interface. The dashboard currently provides:
+- Credential table
+- Search, Add, Edit, Delete, View credentials
+- Backup & Restore
+- Favourite indicators & Password details
+- Logout, Status bar, Application icons
+- Sorting and Credential selection
 
-Users can select an existing .json backup through the application's file picker.
+---
 
-JSON Backup
-     │
-     ▼
-Backup Manager
-     │
-     ▼
-Vault
-
-The dashboard is refreshed after restoration.
-
-⚠️ Backup files contain sensitive vault information and must be protected. They should never be committed to a public Git repository.
-
-🖥️ Dashboard
-
-The application uses PySide6 for the desktop interface.
-
-The dashboard currently provides:
-
-Credential table
-Search
-Add credential
-Edit credential
-Delete credential
-View credential
-Backup
-Restore
-Favourite indicators
-Password details
-Logout
-Status bar
-Application icons
-Sorting
-Credential selection
-
-🏗️ Architecture
+## 🏗️ Architecture
 
 The project is organized into separate layers for authentication, encryption, database operations, vault management, backup handling, and user interface components.
 
+```text
                        ┌───────────────────┐
                        │      PySide6      │
                        │     Desktop UI    │
@@ -248,17 +178,23 @@ The project is organized into separate layers for authentication, encryption, da
                 ┌────────────────┴────────────────┐
                 │                                 │
                 ▼                                 ▼
-       ┌─────────────────┐              ┌─────────────────┐
-       │    Encryption   │              │    Database     │
-       │     Manager     │              │     Manager     │
-       └────────┬────────┘              └────────┬────────┘
+       ┌─────────────────┐               ┌─────────────────┐
+       │   Encryption    │               │    Database     │
+       │    Manager      │               │     Manager     │
+       └────────┬────────┘               └────────┬────────┘
                 │                                 │
                 └────────────────┬────────────────┘
                                  ▼
                          ┌───────────────┐
                          │ SQLite Vault  │
                          └───────────────┘
-📂 Project Structure
+```
+
+---
+
+## 📂 Project Structure
+
+```text
 PasswordManager/
 │
 ├── auth/
@@ -309,138 +245,100 @@ PasswordManager/
 │   └── vault_manager.py
 │
 ├── assets/
-│
 ├── tests/
-│
 ├── main.py
 ├── requirements.txt
 ├── .gitignore
 └── README.md
+```
+*(The exact contents of the project may evolve as new features are added.)*
 
-The exact contents of the project may evolve as new features are added.
+---
 
-🛠️ Technology Stack
-Technology	Purpose
-Python	Core programming language
-PySide6	Desktop graphical user interface
-SQLite	Local database
-Cryptography	Credential encryption
-Password Hashing	Master password authentication
-JSON	Backup format
-Git	Version control
-GitHub	Source code hosting
-🔐 Security Design
+## 🛠️ Technology Stack
 
-Security is a core consideration of this project.
+| Technology | Purpose |
+| :--- | :--- |
+| **Python** | Core programming language |
+| **PySide6** | Desktop graphical user interface |
+| **SQLite** | Local database |
+| **Cryptography** | Credential encryption |
+| **Password Hashing**| Master password authentication |
+| **JSON** | Backup format |
+| **Git** | Version control |
+| **GitHub** | Source code hosting |
 
-The current design includes:
+---
 
-Master Password Protection
+## 🔐 Security Design
 
-The master password is processed using password hashing and a cryptographic salt rather than being stored directly.
+Security is a core consideration of this project. The current design includes:
 
-Credential Encryption
+- **Master Password Protection**: The master password is processed using password hashing and a cryptographic salt rather than being stored directly.
+- **Credential Encryption**: Stored credential passwords are encrypted before being written to the database.
+- **Salt Management**: Cryptographic salts are stored separately from the database.
+- **Protected Password Display**: Passwords are hidden by default in the graphical interface.
+- **Secure Credential Handling**: Credential operations are handled through the vault and database layers rather than allowing UI components to directly manipulate database records.
 
-Stored credential passwords are encrypted before being written to the database.
+> ⚠️ **Sensitive Files:** The following files should remain local and should not be committed to Git: `data/*.db`, `data/*.salt`, `backups/*`
 
-Salt Management
+---
 
-Cryptographic salts are stored separately from the database.
+## 🚀 Installation
 
-Protected Password Display
-
-Passwords are hidden by default in the graphical interface.
-
-Secure Credential Handling
-
-Credential operations are handled through the vault and database layers rather than allowing UI components to directly manipulate database records.
-
-Sensitive Files
-
-The following files should remain local and should not be committed to Git:
-
-data/*.db
-data/*.salt
-backups/*
-🧪 Testing
-
-The project contains tests covering the major components of the application.
-
-Examples include:
-
-python test_auth.py
-python test_database.py
-python test_encryption.py
-python test_vault_manager.py
-python test_search.py
-python test_update_credential.py
-python test_delete_credential.py
-python test_password_generator.py
-python test_backup.py
-python test_restore.py
-python test_view_credentials.py
-
-Testing currently covers areas such as:
-
-Authentication
-Database operations
-Password hashing
-Encryption and decryption
-Credential creation
-Credential retrieval
-Credential updates
-Credential deletion
-Credential searching
-Password generation
-Backup
-Restore
-Credential viewing
-
-The project is developed incrementally, with backend functionality being tested before integrating it into the graphical interface.
-
-🚀 Installation
-Requirements
-
+### Requirements
 Before running the application, make sure you have:
+- Python 3.10 or newer
+- Git
+- pip
 
-Python 3.10 or newer
-Git
-pip
-1. Clone the repository
-git clone https://github.com/zaheer122/PasswordManager.git
-
-Then enter the project directory:
-
+### 1. Clone the repository
+```bash
+git clone [https://github.com/zaheer122/PasswordManager.git](https://github.com/zaheer122/PasswordManager.git)
 cd PasswordManager
-2. Create a virtual environment
-macOS / Linux
+```
+
+### 2. Create a virtual environment
+**macOS / Linux**
+```bash
 python3 -m venv venv
-
-Activate it:
-
 source venv/bin/activate
-Windows
+```
+
+**Windows**
+```cmd
 python -m venv venv
-
-Activate it:
-
 venv\Scripts\activate
-3. Install dependencies
+```
+
+### 3. Install dependencies
+```bash
 pip install -r requirements.txt
-4. Run the application
+```
+
+### 4. Run the application
+```bash
 python main.py
-🧪 Running Tests
+```
+
+---
+
+## 🧪 Testing
+
+The project contains tests covering the major components of the application (Authentication, Database operations, Password hashing, Encryption and decryption, Credential management, Backup/Restore, etc.).
 
 Activate the virtual environment first:
-
+```bash
 source venv/bin/activate
+```
 
 Then run the required test:
-
+```bash
 python test_auth.py
+```
 
-or any of the individual test files:
-
+*Other available tests:*
+```bash
 python test_database.py
 python test_encryption.py
 python test_vault_manager.py
@@ -451,20 +349,24 @@ python test_password_generator.py
 python test_backup.py
 python test_restore.py
 python test_view_credentials.py
-🔄 Application Workflow
+```
+*(The project is developed incrementally, with backend functionality being tested before integrating it into the graphical interface.)*
 
-The current application workflow is:
+---
 
+## 🔄 Application Workflow
+
+```text
                  Start Application
-                        │
-                        ▼
-               Master Password
+                       │
+                       ▼
+                Master Password
                   Exists?
                  /        \
                No          Yes
                │            │
                ▼            ▼
-          Registration     Login
+          Registration      Login
                │            │
                ▼            ▼
           Create Vault   Verify Password
@@ -483,3 +385,4 @@ The current application workflow is:
                             │
                             ▼
                          Restore
+```
